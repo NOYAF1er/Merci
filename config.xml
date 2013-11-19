@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.osmoz.merci"
+        versionCode="1" 
+        version   = "1.0.0">
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Merci !</name>
+
+    <description>
+        Application du groupe OSMOZ CREATION permettant de faire des recherches sur des articles. 
+    </description>
+
+    <author href="https://build.phonegap.com" email="osmozcrea@gmail.com">
+        Yannick Ossuih 
+    </author>
+
+</widget>
