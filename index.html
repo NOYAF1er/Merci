@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Document sans nom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0-alpha.2/jquery.mobile-1.4.0-alpha.2.min.css" />-->
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.0-alpha.2.min.css" />
+    <link rel="stylesheet" href="css/my_style.css" />
+    
+	<!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.0-alpha.2/jquery.mobile-1.4.0-alpha.2.min.js"></script>-->
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.0-alpha.2.min.js"></script>
+     
+    <!--script de validation du formulaire grace à AJAX-->
+	<script>
+		$pageInit( function() {
+            $('#recherche_form').on('submit', function() {
+                    $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function(msg) {document.getElementById("result").innerHTML = msg;}
+                });
+                return false;
+            });
+        });     
+	</script>
+       
+    <!--script de gestion des options de recherche-->
+	<script>
+		$( document ).on( "pagecreate", function() {
+			$( "#options_rech" ).hide();
+			$( "#btn_option" ).text("Plus d'options");
+			
+			$( "#btn_option" ).on( "click", function( event ) {
+				if($(this).text()=="Plus d'options"){
+					$( "#options_rech" ).show().slideDown();
+					$(this).text("Moins d'options");
+				}
+				else if($(this).text()=="Moins d'options"){
+					$( "#options_rech" ).hide().slideUp();
+					$(this).text("Plus d'options");
+				}
+			});
+		});
+	</script>
+     
+</head>
+
+<body>
+	<!-- Début de la page d'accueil -->
+    <div data-role="page" id="accueil">
+        <div data-role="header">
+            <h1>&nbsp;</h1>
+			<a href="#panel-categories" class="ui-btn ui-corner-all ui-btn-right">Annonces</a>
+        </div><!-- /header -->
+        
+        <div data-role="content" role="main" id="recherche">
+            <h1 class="center">Merci !</h1>
+            <form action="" method="post" id="recherche_form">
+                <div class="ui-field-contain">
+                    <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
+                    <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
+                </div>
+                
+            </form>
+            
+        </div><!-- /#recherche -->
+        
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#panel-recherche">Plus d'options</a></li>
+                </ul>
+            </div>
+            <h4 style="display:none;">Footer</h4>
+        </div><!-- /footer -->
+        
+        <div data-role="panel" id="panel-recherche" data-display="overlay" data-position="right">
+                    <div class="ui-mini center">
+                        <div class="ui-grid-a">
+                            <h4>Tranche de prix</h4>
+                            <div class="ui-block-a">
+                                <label for="min" class="ui-hidden-accessible">Minimum:</label>
+                                <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
+                            </div>
+                            <div class="ui-block-b">
+                                <label for="max" class="ui-hidden-accessible">Maximum:</label>
+                                <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
+                            </div>
+                        </div>                                        
+                    </div>
+                    
+                    <div class="ui-field-contain ui-mini">
+                        <label for="categorie" class="select">Catégorie:</label>
+                        <select name="categorie" id="categorie" data-native-menu="false">
+                            <option value="toute">&nbsp;</option>
+                            <option value="informatique">Informatique</option>
+                            <option value="telephonie">Téléphonie</option>
+                            <option value="multimedia">Multimedia</option>
+                            <option value="services">Services</option>
+                            <option value="vestimentaire">Vestimentaire</option>
+                            <option value="bijoux">Bijoux et accessoires</option>
+                            <option value="auto">Auto, Moto</option>
+                            <option value="sport">Sport</option>
+                            <option value="jeux">Jeux, Jouets</option>
+                        </select>
+                        
+                        <label for="rubrique" class="select">Rubrique:</label>
+                        <select name="rubrique" id="rubrique" data-native-menu="false">
+                            <option value="0">&nbsp;</option>
+                            <option value="1">Rubrique 1</option>
+                            <option value="2">Rubrique 2</option>
+                            <option value="3">Rubrique 3</option>
+                            <option value="4">Rubrique 4</option>
+                            <option value="5">Rubrique 5</option>
+                        </select>
+                        
+                        <label for="sousrubrique" class="select">Sous-rubrique:</label>
+                        <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
+                            <option value="0">&nbsp;</option>
+                            <option value="1">Sous-rubrique 1</option>
+                            <option value="2">Sous-rubrique 2</option>
+                            <option value="3">Sous-rubrique 3</option>
+                            <option value="4">Sous-rubrique 4</option>
+                            <option value="5">Sous-rubrique 5</option>
+                        </select>
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <input type="submit" id="submit-1" value="Chercher">
+                    </div>
+        </div><!-- /panel_recherche -->
+        
+        <div data-role="panel" id="panel-categories" data-display="overlay" data-position="left">
+            <ul data-role="listview" data-inset="true" class="ui-nodisc-icon ui-alt-icon">
+                <li><a href="#articles" data-transition="flow">Informatique</a></li>
+                <li><a href="#articles" data-transition="flow">Téléphonie</a></li>
+                <li><a href="#articles" data-transition="flow">MultiMedia</a></li>
+                <li><a href="#articles" data-transition="flow">Services</a></li>
+                <li><a href="#articles" data-transition="flow">Vêtements</a></li>
+                <li><a href="#articles" data-transition="flow">Bijouterie & accessoires</a></li>
+                <li><a href="#articles" data-transition="flow">Auto, Moto</a></li>
+                <li><a href="#articles" data-transition="flow">Sport</a></li>
+                <li><a href="#articles" data-transition="flow">Jeux, Jouets</a></li>
+            </ul>
+        </div><!-- /panel_categories -->
+        
+    </div><!-- /#accueil -->
+
+	<!-- Début de la page de présentation des articles d'une categorie -->
+    <div data-role="page" id="articles">
+    
+        <div data-role="header">
+            <h1>Merci !</h1>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+			<a href="#panel-overlay" class="ui-btn ui-corner-all ui-shadow ui-icon-bullets ui-btn-right ui-btn-icon-notext">Panel</a>
+        </div><!-- /header -->
+    
+        <div data-role="content">
+            <ul data-role="listview" data-split-icon="carat-r" data-inset="true" data-filter="true" data-filter-placeholder="recherche...">
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-bb.jpg">
+                        <h2>Broken Bells</h2>
+                        <p>Broken Bells</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-hc.jpg">
+                        <h2>Warning</h2>
+                        <p>Hot Chip</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-ws.jpg">
+                        <h2>Wolfgang Amadeus Phoenix</h2>
+                        <p>Phoenix</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-k.jpg">
+                        <h2>Phoenix</h2>
+                        <p>Ytreza</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-rh.jpg">
+                        <h2>Amadeus</h2>
+                        <p>Azerty</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+            </ul><!-- /listview -->
+        </div><!-- /content -->
+    
+    
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#">Menu item 1</a></li>
+                    <li><a href="#" class="ui-btn-active ui-state-persist">Menu item 2</a></li>
+                    <li><a href="#">Menu item 3</a></li>
+                </ul>
+            </div>
+            <h4 style="display:none;">Footer</h4>
+        </div><!-- /footer -->
+        
+        <div data-role="panel" id="panel-overlay" data-display="overlay" data-position="right">
+            <ul data-role="listview">
+                <li data-icon="delete"><a href="#" data-rel="close">Rubriqes</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>               
+            </ul>
+        </div><!-- /panel -->
+        
+    </div><!-- /#articles -->
+
+	<!-- Début de la page de présentant les détails d'un produit -->
+    <div data-role="page" id="details_article">
+    
+        <div data-role="header">
+            <h1>Merci !</h1>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+        </div><!-- /header -->
+    
+        <div data-role="content">
+            <div class="ui-body ui-body-a ui-corner-all">
+				<div class="ui-grid-a">
+                	<div class="ui-block-a">
+                        <div>
+                            <img src="img/articles/album-bb.jpg" width="150" height="160">
+                        </div> 
+                        <div data-role="controlgroup" data-type="horizontal" data-mini="true">
+                            <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Couleur</a>
+                            <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Couleur</a>
+                            <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Couleur</a>
+                        </div>
+                    </div><!-- /ui-block-a -->
+                    
+                    <div class="ui-block-b">
+                    	<ul data-role="listview" data-inset="true" data-shadow="false" class="ui-nodisc-icon ui-alt-icon">
+                        	<li><span>10 000 FCFA</span></li>
+                        	<li>****</li>
+                        	<li>John Doe</li>
+                            <li>Neuf</li>
+                        </ul>
+                    </div><!-- /ui-block-b -->
+                </div><!-- /ui-grid-a -->
+            </div><!-- /ui-body -->
+            <div class="ui-body ui-body-a description_article">
+                <p>Consectetur adipisicing elit, duis aute irure dolor cupidatat non proident. Ut enim ad minim veniam, excepteur sint occaecat quis nostrud exercitation. In reprehenderit in voluptate lorem ipsum dolor sit amet, velit esse cillum dolore. Ut labore et dolore magna aliqua. Ut enim ad minim veniam, sed do eiusmod tempor incididunt ullamco laboris nisi.</p>
+                <p>Cupidatat non proident, qui officia deserunt duis aute irure dolor. Quis nostrud exercitation. Velit esse cillum dolore ut enim ad minim veniam, ut labore et dolore magna aliqua. Ullamco laboris nisi eu fugiat nulla pariatur.</p>
+                <p>Consectetur adipisicing elit, cupidatat non proident, quis nostrud exercitation. Mollit anim id est laborum. Velit esse cillum dolore sunt in culpa ullamco laboris nisi. Ut enim ad minim veniam, quis nostrud exercitation cupidatat non proident.</p>
+            </div> 
+        </div><!-- /content -->
+    
+    
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#" class="ui-btn-active ui-state-persist">Détails</a></li>
+                    <li><a href="#">Vendeur</a></li>
+                    <li><a href="#">Recherche</a></li>
+                </ul>
+            </div>
+            <h4 style="display:none;">Footer</h4>
+        </div><!-- /footer -->
+        
+    </div><!-- /#dateils_article -->
+
+
+</body>
+</html>

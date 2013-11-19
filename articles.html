@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Document sans nom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0-alpha.2/jquery.mobile-1.4.0-alpha.2.min.css" />-->
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.0-alpha.2.min.css" />
+    
+	<!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.0-alpha.2/jquery.mobile-1.4.0-alpha.2.min.js"></script>-->
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.0-alpha.2.min.js"></script>   
+</head>
+
+<body>
+	<!-- Début de la page de présentation des articles d'une categorie -->
+    <div data-role="page" id="accueil">
+    
+        <div data-role="header">
+            <h1>Merci !</h1>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+			<a href="#panel-overlay" class="ui-btn ui-corner-all ui-shadow ui-icon-bullets ui-btn-right ui-btn-icon-notext">Panel</a>
+        </div><!-- /header -->
+    
+        <div data-role="content">
+            <ul data-role="listview" data-split-icon="carat-r" data-inset="true" data-filter="true" data-filter-placeholder="recherche...">
+                <li>
+                    <a href="details_article.html" data-transition="slide">
+                        <img src="img/articles/album-bb.jpg">
+                        <h2>Broken Bells</h2>
+                        <p>Broken Bells</p>
+                    </a>
+                    <a href="details_article.html" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="details_article.html" data-transition="slide">
+                        <img src="img/articles/album-hc.jpg">
+                        <h2>Warning</h2>
+                        <p>Hot Chip</p>
+                    </a>
+                    <a href="details_article.html" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="details_article.html" data-transition="slide">
+                        <img src="img/articles/album-ws.jpg">
+                        <h2>Wolfgang Amadeus Phoenix</h2>
+                        <p>Phoenix</p>
+                    </a>
+                    <a href="details_article.html" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="details_article.html" data-transition="slide">
+                        <img src="img/articles/album-k.jpg">
+                        <h2>Phoenix</h2>
+                        <p>Ytreza</p>
+                    </a>
+                    <a href="details_article.html" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="details_article.html" data-transition="slide">
+                        <img src="img/articles/album-rh.jpg">
+                        <h2>Amadeus</h2>
+                        <p>Azerty</p>
+                    </a>
+                    <a href="details_article.html" data-transition="slide">Details</a>
+                </li>
+            </ul><!-- /listview -->
+        </div><!-- /content -->
+    
+    
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#">Menu item 1</a></li>
+                    <li><a href="#" class="ui-btn-active ui-state-persist">Menu item 2</a></li>
+                    <li><a href="#">Menu item 3</a></li>
+                </ul>
+            </div>
+            <h4 style="display:none;">Footer</h4>
+        </div><!-- /footer -->
+        
+        <div data-role="panel" id="panel-overlay" data-display="overlay" data-position="right">
+            <ul data-role="listview">
+                <li data-icon="delete"><a href="#" data-rel="close">Rubriqes</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>
+                <li><a href="#">List item</a></li>               
+            </ul>
+        </div><!-- /panel -->
+        
+    </div><!-- /#articles -->
+</body>
+</html>
