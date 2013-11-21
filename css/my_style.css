@@ -1,5 +1,20 @@
 @charset "utf-8";
 
+body,[data-role='page']{
+	background: #fff !important;
+}
+
+[data-role='header']{
+	background: #0C3 !important;
+	color: #fff  !important;
+}
+
+[data-role='footer'], [data-role='navbar']{
+	background: #F90 !important;
+	color: #fff  !important;
+}
+
+
 .center{
 	text-align:center;
 }
