@@ -21,6 +21,22 @@
                     $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
+					beforeSend : function() {$.mobile.loading('show')},
+					complete   : function() {$.mobile.loading('hide')},
+                    data: $(this).serialize(),
+                    success: function(msg) {document.getElementById("result").innerHTML = msg;}
+                });
+                return false;
+            });
+        });     
+	</script>
+    
+	<script>
+		$pageInit( function() {
+            $('#recherche_form_accueil').on('submit', function() {
+                    $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
                     data: $(this).serialize(),
                     success: function(msg) {document.getElementById("result").innerHTML = msg;}
                 });
@@ -29,25 +45,6 @@
         });     
 	</script>
        
-    <!--script de gestion des options de recherche-->
-	<script>
-		$( document ).on( "pagecreate", function() {
-			$( "#options_rech" ).hide();
-			$( "#btn_option" ).text("Plus d'options");
-			
-			$( "#btn_option" ).on( "click", function( event ) {
-				if($(this).text()=="Plus d'options"){
-					$( "#options_rech" ).show().slideDown();
-					$(this).text("Moins d'options");
-				}
-				else if($(this).text()=="Moins d'options"){
-					$( "#options_rech" ).hide().slideUp();
-					$(this).text("Plus d'options");
-				}
-			});
-		});
-	</script>
-     
 </head>
 
 <body>
@@ -55,101 +52,189 @@
     <div data-role="page" id="accueil">
         <div data-role="header">
             <h1>&nbsp;</h1>
-			<a href="#panel-categories" class="ui-btn ui-corner-all ui-btn-right">Annonces</a>
+			<a href="#categories" class="ui-btn ui-corner-all ui-btn-right" data-transition="flow">Annonces</a>
         </div><!-- /header -->
         
         <div data-role="content" role="main" id="recherche">
             <h1 class="center">Merci !</h1>
+            <form action="" method="post" id="recherche_form_accueil">
+                <div class="ui-field-contain">
+                    <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
+                    <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
+                </div>
+            </form>
+        </div><!-- /content -->
+        
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#panel-recherche">Recherche avancée</a></li>
+                </ul>
+            </div>
+            <h4 style="display:none;">Footer</h4>
+        </div><!-- /footer -->
+        
+        <div data-role="panel" id="panel-recherche" data-display="reveal" data-position="right">
             <form action="" method="post" id="recherche_form">
                 <div class="ui-field-contain">
                     <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
                     <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
                 </div>
                 
+                <div class="ui-mini center">
+                    <div class="ui-grid-a">
+                        <h4>Tranche de prix</h4>
+                        <div class="ui-block-a">
+                            <label for="min" class="ui-hidden-accessible">Minimum:</label>
+                            <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
+                        </div>
+                        <div class="ui-block-b">
+                            <label for="max" class="ui-hidden-accessible">Maximum:</label>
+                            <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
+                        </div>
+                    </div>                                        
+                </div>
+                
+                <div class="ui-field-contain ui-mini">
+                    <label for="categorie" class="select">Catégorie:</label>
+                    <select name="categorie" id="categorie" data-native-menu="false">
+                        <option value="toute">&nbsp;</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="telephonie">Téléphonie</option>
+                        <option value="multimedia">Multimedia</option>
+                        <option value="services">Services</option>
+                        <option value="vestimentaire">Vestimentaire</option>
+                        <option value="bijoux">Bijoux et accessoires</option>
+                        <option value="auto">Auto, Moto</option>
+                        <option value="sport">Sport</option>
+                        <option value="jeux">Jeux, Jouets</option>
+                    </select>
+                    
+                    <label for="rubrique" class="select">Rubrique:</label>
+                    <select name="rubrique" id="rubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Rubrique 1</option>
+                        <option value="2">Rubrique 2</option>
+                        <option value="3">Rubrique 3</option>
+                        <option value="4">Rubrique 4</option>
+                        <option value="5">Rubrique 5</option>
+                    </select>
+                    
+                    <label for="sousrubrique" class="select">Sous-rubrique:</label>
+                    <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Sous-rubrique 1</option>
+                        <option value="2">Sous-rubrique 2</option>
+                        <option value="3">Sous-rubrique 3</option>
+                        <option value="4">Sous-rubrique 4</option>
+                        <option value="5">Sous-rubrique 5</option>
+                    </select>
+                </div>
+
+                <div class="ui-field-contain">
+                    <input type="submit" id="submit-1" value="Chercher">
+                </div>
+                
             </form>
-            
+        </div><!-- /panel_recherche -->
+                
+    </div><!-- /#accueil -->
+
+	<!-- Début de la page des catégories -->
+    <div data-role="page" id="categories">
+        <div data-role="header">
+            <h1>Merci !</h1>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+        </div><!-- /header -->
+        
+        <div data-role="content" role="main" id="recherche">
+            <ul data-role="listview" data-inset="true" class="ui-nodisc-icon ui-alt-icon">
+                <li><a href="#articles" data-transition="slide">Informatique</a></li>
+                <li><a href="#articles" data-transition="slide">Téléphonie</a></li>
+                <li><a href="#articles" data-transition="slide">MultiMedia</a></li>
+                <li><a href="#articles" data-transition="slide">Services</a></li>
+                <li><a href="#articles" data-transition="slide">Vêtements</a></li>
+                <li><a href="#articles" data-transition="slide">Bijouterie & accessoires</a></li>
+                <li><a href="#articles" data-transition="slide">Auto, Moto</a></li>
+                <li><a href="#articles" data-transition="slide">Sport</a></li>
+                <li><a href="#articles" data-transition="slide">Jeux, Jouets</a></li>
+            </ul>
         </div><!-- /#recherche -->
         
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#panel-recherche">Plus d'options</a></li>
+                    <li><a href="#panel-recherche">Recherche</a></li>
                 </ul>
             </div>
             <h4 style="display:none;">Footer</h4>
         </div><!-- /footer -->
         
         <div data-role="panel" id="panel-recherche" data-display="overlay" data-position="right">
-                    <div class="ui-mini center">
-                        <div class="ui-grid-a">
-                            <h4>Tranche de prix</h4>
-                            <div class="ui-block-a">
-                                <label for="min" class="ui-hidden-accessible">Minimum:</label>
-                                <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
-                            </div>
-                            <div class="ui-block-b">
-                                <label for="max" class="ui-hidden-accessible">Maximum:</label>
-                                <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
-                            </div>
-                        </div>                                        
-                    </div>
+            <form action="" method="post" id="recherche_form">
+                <div class="ui-field-contain">
+                    <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
+                    <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
+                </div>
+                
+                <div class="ui-mini center">
+                    <div class="ui-grid-a">
+                        <h4>Tranche de prix</h4>
+                        <div class="ui-block-a">
+                            <label for="min" class="ui-hidden-accessible">Minimum:</label>
+                            <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
+                        </div>
+                        <div class="ui-block-b">
+                            <label for="max" class="ui-hidden-accessible">Maximum:</label>
+                            <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
+                        </div>
+                    </div>                                        
+                </div>
+                
+                <div class="ui-field-contain ui-mini">
+                    <label for="categorie" class="select">Catégorie:</label>
+                    <select name="categorie" id="categorie" data-native-menu="false">
+                        <option value="toute">&nbsp;</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="telephonie">Téléphonie</option>
+                        <option value="multimedia">Multimedia</option>
+                        <option value="services">Services</option>
+                        <option value="vestimentaire">Vestimentaire</option>
+                        <option value="bijoux">Bijoux et accessoires</option>
+                        <option value="auto">Auto, Moto</option>
+                        <option value="sport">Sport</option>
+                        <option value="jeux">Jeux, Jouets</option>
+                    </select>
                     
-                    <div class="ui-field-contain ui-mini">
-                        <label for="categorie" class="select">Catégorie:</label>
-                        <select name="categorie" id="categorie" data-native-menu="false">
-                            <option value="toute">&nbsp;</option>
-                            <option value="informatique">Informatique</option>
-                            <option value="telephonie">Téléphonie</option>
-                            <option value="multimedia">Multimedia</option>
-                            <option value="services">Services</option>
-                            <option value="vestimentaire">Vestimentaire</option>
-                            <option value="bijoux">Bijoux et accessoires</option>
-                            <option value="auto">Auto, Moto</option>
-                            <option value="sport">Sport</option>
-                            <option value="jeux">Jeux, Jouets</option>
-                        </select>
-                        
-                        <label for="rubrique" class="select">Rubrique:</label>
-                        <select name="rubrique" id="rubrique" data-native-menu="false">
-                            <option value="0">&nbsp;</option>
-                            <option value="1">Rubrique 1</option>
-                            <option value="2">Rubrique 2</option>
-                            <option value="3">Rubrique 3</option>
-                            <option value="4">Rubrique 4</option>
-                            <option value="5">Rubrique 5</option>
-                        </select>
-                        
-                        <label for="sousrubrique" class="select">Sous-rubrique:</label>
-                        <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
-                            <option value="0">&nbsp;</option>
-                            <option value="1">Sous-rubrique 1</option>
-                            <option value="2">Sous-rubrique 2</option>
-                            <option value="3">Sous-rubrique 3</option>
-                            <option value="4">Sous-rubrique 4</option>
-                            <option value="5">Sous-rubrique 5</option>
-                        </select>
-                    </div>
+                    <label for="rubrique" class="select">Rubrique:</label>
+                    <select name="rubrique" id="rubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Rubrique 1</option>
+                        <option value="2">Rubrique 2</option>
+                        <option value="3">Rubrique 3</option>
+                        <option value="4">Rubrique 4</option>
+                        <option value="5">Rubrique 5</option>
+                    </select>
+                    
+                    <label for="sousrubrique" class="select">Sous-rubrique:</label>
+                    <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Sous-rubrique 1</option>
+                        <option value="2">Sous-rubrique 2</option>
+                        <option value="3">Sous-rubrique 3</option>
+                        <option value="4">Sous-rubrique 4</option>
+                        <option value="5">Sous-rubrique 5</option>
+                    </select>
+                </div>
 
-                    <div class="ui-field-contain">
-                        <input type="submit" id="submit-1" value="Chercher">
-                    </div>
+                <div class="ui-field-contain">
+                    <input type="submit" id="submit-1" value="Chercher">
+                </div>
+                
+            </form>
         </div><!-- /panel_recherche -->
         
-        <div data-role="panel" id="panel-categories" data-display="overlay" data-position="left">
-            <ul data-role="listview" data-inset="true" class="ui-nodisc-icon ui-alt-icon">
-                <li><a href="#articles" data-transition="flow">Informatique</a></li>
-                <li><a href="#articles" data-transition="flow">Téléphonie</a></li>
-                <li><a href="#articles" data-transition="flow">MultiMedia</a></li>
-                <li><a href="#articles" data-transition="flow">Services</a></li>
-                <li><a href="#articles" data-transition="flow">Vêtements</a></li>
-                <li><a href="#articles" data-transition="flow">Bijouterie & accessoires</a></li>
-                <li><a href="#articles" data-transition="flow">Auto, Moto</a></li>
-                <li><a href="#articles" data-transition="flow">Sport</a></li>
-                <li><a href="#articles" data-transition="flow">Jeux, Jouets</a></li>
-            </ul>
-        </div><!-- /panel_categories -->
-        
-    </div><!-- /#accueil -->
+    </div><!-- /#categories -->
 
 	<!-- Début de la page de présentation des articles d'une categorie -->
     <div data-role="page" id="articles">
@@ -157,7 +242,7 @@
         <div data-role="header">
             <h1>Merci !</h1>
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
-			<a href="#panel-overlay" class="ui-btn ui-corner-all ui-shadow ui-icon-bullets ui-btn-right ui-btn-icon-notext">Panel</a>
+			<a href="#panel_rubrique" class="ui-btn ui-corner-all ui-shadow ui-icon-bullets ui-btn-right ui-btn-icon-notext">Panel</a>
         </div><!-- /header -->
     
         <div data-role="content">
@@ -204,20 +289,81 @@
                 </li>
             </ul><!-- /listview -->
         </div><!-- /content -->
-    
-    
+        
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#">Menu item 1</a></li>
-                    <li><a href="#" class="ui-btn-active ui-state-persist">Menu item 2</a></li>
-                    <li><a href="#">Menu item 3</a></li>
+                    <li><a href="#panel-recherche">Recherche</a></li>
                 </ul>
             </div>
             <h4 style="display:none;">Footer</h4>
         </div><!-- /footer -->
         
-        <div data-role="panel" id="panel-overlay" data-display="overlay" data-position="right">
+        <div data-role="panel" id="panel-recherche" data-display="reveal" data-position="left">
+            <form action="" method="post" id="recherche_form">
+                <div class="ui-field-contain">
+                    <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
+                    <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
+                </div>
+                
+                <div class="ui-mini center">
+                    <div class="ui-grid-a">
+                        <h4>Tranche de prix</h4>
+                        <div class="ui-block-a">
+                            <label for="min" class="ui-hidden-accessible">Minimum:</label>
+                            <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
+                        </div>
+                        <div class="ui-block-b">
+                            <label for="max" class="ui-hidden-accessible">Maximum:</label>
+                            <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
+                        </div>
+                    </div>                                        
+                </div>
+                
+                <div class="ui-field-contain ui-mini">
+                    <label for="categorie" class="select">Catégorie:</label>
+                    <select name="categorie" id="categorie" data-native-menu="false">
+                        <option value="toute">&nbsp;</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="telephonie">Téléphonie</option>
+                        <option value="multimedia">Multimedia</option>
+                        <option value="services">Services</option>
+                        <option value="vestimentaire">Vestimentaire</option>
+                        <option value="bijoux">Bijoux et accessoires</option>
+                        <option value="auto">Auto, Moto</option>
+                        <option value="sport">Sport</option>
+                        <option value="jeux">Jeux, Jouets</option>
+                    </select>
+                    
+                    <label for="rubrique" class="select">Rubrique:</label>
+                    <select name="rubrique" id="rubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Rubrique 1</option>
+                        <option value="2">Rubrique 2</option>
+                        <option value="3">Rubrique 3</option>
+                        <option value="4">Rubrique 4</option>
+                        <option value="5">Rubrique 5</option>
+                    </select>
+                    
+                    <label for="sousrubrique" class="select">Sous-rubrique:</label>
+                    <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Sous-rubrique 1</option>
+                        <option value="2">Sous-rubrique 2</option>
+                        <option value="3">Sous-rubrique 3</option>
+                        <option value="4">Sous-rubrique 4</option>
+                        <option value="5">Sous-rubrique 5</option>
+                    </select>
+                </div>
+
+                <div class="ui-field-contain">
+                    <input type="submit" id="submit-1" value="Chercher">
+                </div>
+                
+            </form>
+        </div><!-- /panel_recherche -->
+            
+        <div data-role="panel" id="panel_rubrique" data-display="overlay" data-position="right">
             <ul data-role="listview">
                 <li data-icon="delete"><a href="#" data-rel="close">Rubriqes</a></li>
                 <li><a href="#">List item</a></li>
@@ -230,16 +376,17 @@
                 <li><a href="#">List item</a></li>
                 <li><a href="#">List item</a></li>               
             </ul>
-        </div><!-- /panel -->
+        </div><!-- /panel_rubrique -->
         
     </div><!-- /#articles -->
 
-	<!-- Début de la page de présentant les détails d'un produit -->
+	<!-- Début de la page présentant les détails d'un produit -->
     <div data-role="page" id="details_article">
     
         <div data-role="header">
             <h1>Merci !</h1>
-            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+			<a href="#panel-annonceur" class="ui-btn ui-corner-all ui-icon-user ui-btn-right ui-btn-icon-notext">Panel</a>
         </div><!-- /header -->
     
         <div data-role="content">
@@ -277,16 +424,199 @@
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#" class="ui-btn-active ui-state-persist">Détails</a></li>
-                    <li><a href="#">Vendeur</a></li>
-                    <li><a href="#">Recherche</a></li>
+                    <li><a href="#panel-recherche">Recherche</a></li>
                 </ul>
             </div>
             <h4 style="display:none;">Footer</h4>
         </div><!-- /footer -->
         
-    </div><!-- /#dateils_article -->
+        <div data-role="panel" id="panel-annonceur" data-display="reveal" data-position="right">
+        	<h2>Info sur l'annonceur</h2>
+       	  <p>Velit esse cillum dolore consectetur adipisicing elit, eu fugiat nulla pariatur. Cupidatat non proident, ullamco laboris nisi sunt in culpa. Excepteur sint occaecat lorem ipsum dolor sit amet, ut labore et dolore magna aliqua.</p>
+          <p><a href="#articles_annonceur" data-transition="flip">Autres produits de l'annonceur</a></p>
+        </div><!-- /panel_annonceur -->
+        
+        <div data-role="panel" id="panel-recherche" data-display="reveal" data-position="left">
+            <form action="" method="post" id="recherche_form">
+                <div class="ui-field-contain">
+                    <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
+                    <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
+                </div>
+                
+                <div class="ui-mini center">
+                    <div class="ui-grid-a">
+                        <h4>Tranche de prix</h4>
+                        <div class="ui-block-a">
+                            <label for="min" class="ui-hidden-accessible">Minimum:</label>
+                            <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
+                        </div>
+                        <div class="ui-block-b">
+                            <label for="max" class="ui-hidden-accessible">Maximum:</label>
+                            <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
+                        </div>
+                    </div>                                        
+                </div>
+                
+                <div class="ui-field-contain ui-mini">
+                    <label for="categorie" class="select">Catégorie:</label>
+                    <select name="categorie" id="categorie" data-native-menu="false">
+                        <option value="toute">&nbsp;</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="telephonie">Téléphonie</option>
+                        <option value="multimedia">Multimedia</option>
+                        <option value="services">Services</option>
+                        <option value="vestimentaire">Vestimentaire</option>
+                        <option value="bijoux">Bijoux et accessoires</option>
+                        <option value="auto">Auto, Moto</option>
+                        <option value="sport">Sport</option>
+                        <option value="jeux">Jeux, Jouets</option>
+                    </select>
+                    
+                    <label for="rubrique" class="select">Rubrique:</label>
+                    <select name="rubrique" id="rubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Rubrique 1</option>
+                        <option value="2">Rubrique 2</option>
+                        <option value="3">Rubrique 3</option>
+                        <option value="4">Rubrique 4</option>
+                        <option value="5">Rubrique 5</option>
+                    </select>
+                    
+                    <label for="sousrubrique" class="select">Sous-rubrique:</label>
+                    <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Sous-rubrique 1</option>
+                        <option value="2">Sous-rubrique 2</option>
+                        <option value="3">Sous-rubrique 3</option>
+                        <option value="4">Sous-rubrique 4</option>
+                        <option value="5">Sous-rubrique 5</option>
+                    </select>
+                </div>
 
+                <div class="ui-field-contain">
+                    <input type="submit" id="submit-1" value="Chercher">
+                </div>
+                
+            </form>
+        </div><!-- /panel_recherche -->
+        
+    </div><!-- /#details_article -->
+
+	<!-- Début de la page de présentation des articles d'un annonceur -->
+    <div data-role="page" id="articles_annonceur">
+    
+        <div data-role="header">
+            <h1>Merci !</h1>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+        </div><!-- /header -->
+    
+        <div data-role="content">
+            <div class="ui-body ui-body-a ui-corner-all ui-grid-a" style="padding:10px;">
+                <div class="ui-block-a">
+                    <img src="img/articles/album-rh.jpg" width="140" height="140">
+                </div>
+                <div class="ui-block-b">
+                    <ul data-role="listview" data-shadow="false">
+                        <li><h3>John Doe</h3></li>
+                        <li>03609667 / 55808035</li>
+                        <li>johndoe@merci.com</li>
+                    </ul>
+                </div>
+            </div>
+            <ul data-role="listview" data-split-icon="carat-r" data-inset="true" data-filter="true" data-filter-placeholder="recherche...">
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-ws.jpg">
+                        <h2>Wolfgang Amadeus Phoenix</h2>
+                        <p>Phoenix</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+                <li>
+                    <a href="#details_article" data-transition="slide">
+                        <img src="img/articles/album-k.jpg">
+                        <h2>Phoenix</h2>
+                        <p>Ytreza</p>
+                    </a>
+                    <a href="#details_article" data-transition="slide">Details</a>
+                </li>
+            </ul><!-- /listview -->
+        </div><!-- /content -->
+        
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#panel-recherche">Recherche</a></li>
+                </ul>
+            </div>
+            <h4 style="display:none;">Footer</h4>
+        </div><!-- /footer -->
+        
+        <div data-role="panel" id="panel-recherche" data-display="reveal" data-position="right">
+            <form action="" method="post" id="recherche_form">
+                <div class="ui-field-contain">
+                    <label for="rech" class="ui-hidden-accessible">Votre recherche:</label>
+                    <input type="search" name="rech" id="rech" value="" placeholder="Dites nous ce que vous cherchez !" data-clear-btn="true">
+                </div>
+                
+                <div class="ui-mini center">
+                    <div class="ui-grid-a">
+                        <h4>Tranche de prix</h4>
+                        <div class="ui-block-a">
+                            <label for="min" class="ui-hidden-accessible">Minimum:</label>
+                            <input type="text" name="min" id="min" placeholder="Prix Minimum" data-clear-btn="true">
+                        </div>
+                        <div class="ui-block-b">
+                            <label for="max" class="ui-hidden-accessible">Maximum:</label>
+                            <input type="text" name="max" id="max" placeholder="Prix Maximum" data-clear-btn="true">
+                        </div>
+                    </div>                                        
+                </div>
+                
+                <div class="ui-field-contain ui-mini">
+                    <label for="categorie" class="select">Catégorie:</label>
+                    <select name="categorie" id="categorie" data-native-menu="false">
+                        <option value="toute">&nbsp;</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="telephonie">Téléphonie</option>
+                        <option value="multimedia">Multimedia</option>
+                        <option value="services">Services</option>
+                        <option value="vestimentaire">Vestimentaire</option>
+                        <option value="bijoux">Bijoux et accessoires</option>
+                        <option value="auto">Auto, Moto</option>
+                        <option value="sport">Sport</option>
+                        <option value="jeux">Jeux, Jouets</option>
+                    </select>
+                    
+                    <label for="rubrique" class="select">Rubrique:</label>
+                    <select name="rubrique" id="rubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Rubrique 1</option>
+                        <option value="2">Rubrique 2</option>
+                        <option value="3">Rubrique 3</option>
+                        <option value="4">Rubrique 4</option>
+                        <option value="5">Rubrique 5</option>
+                    </select>
+                    
+                    <label for="sousrubrique" class="select">Sous-rubrique:</label>
+                    <select name="sousrubrique" id="sousrubrique" data-native-menu="false">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">Sous-rubrique 1</option>
+                        <option value="2">Sous-rubrique 2</option>
+                        <option value="3">Sous-rubrique 3</option>
+                        <option value="4">Sous-rubrique 4</option>
+                        <option value="5">Sous-rubrique 5</option>
+                    </select>
+                </div>
+
+                <div class="ui-field-contain">
+                    <input type="submit" id="submit-1" value="Chercher">
+                </div>
+                
+            </form>
+        </div><!-- /panel_recherche -->
+                    
+    </div><!-- /#articles_annonceur -->
 
 </body>
 </html>
